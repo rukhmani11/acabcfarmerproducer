@@ -1,3 +1,7 @@
+:root {
+  --primary-color: #104058;
+}
+
 .App {
   text-align: center;
 }
@@ -12,6 +16,42 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.slide-text-container {
+  overflow: hidden; /* Ensure that the text doesn't overflow the container */
+}
+/* .banner-image {
+  width: 100%;
+
+  opacity: 0.80; 
+  filter: blur(2px);
+  object-fit: cover; 
+
+} */
+
+
+.slide-text {
+  animation: slideIn 9s infinite;
+  display: inline-block; 
+background-color: #ffeaea;
+  animation-direction: reverse;
+ /* // -webkit-text-stroke: 1px white ; */
+}
+
 
 .App-header {
   background-color: #282c34;
@@ -24,15 +64,87 @@
   color: white;
 }
 
+.pageTitle {
+  display: "flex";
+  justify-content: "center";
+}
+
 .App-link {
-  color: #61dafb;
+  color: var(--primary-color);
+}
+
+.nav-link {
+  color: "white";
+  text-decoration: none !important;
+  font-weight: 500 !important;
 }
 
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
+.marquee {
+  color: #000000;
+  background-color: #ffeaea;
+  height: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-btn {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  text-transform: none !important;
+}
+
+.MuiCard-root {
+  border-top: 3px solid #345781;
+  margin-bottom: 10px;
+}
+
+.MuiMenuItem-root {
+  font-size: 0.9rem !important;
+}
+
+.MuiTabPanel-root {
+  padding: 5px !important;
+}
+
+.m-l-5 {
+  margin-left: 5px !important;
+}
+
+/* .dvDataGrid {
+  height: 500px;
+  width: 100% ;
+} */
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  width: 100%;
+}
+
+.small-text {
+  font-size: 13px !important;
+  color: blue !important;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.receipt {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+/* Dashboard */
