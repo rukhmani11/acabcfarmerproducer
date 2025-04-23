@@ -22,15 +22,14 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import Controls from "../../utility/controls/Controls";
-import useForm from "../../utility/controls/useForm";
-import { Homemodel } from "../../models/Homemodel";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { Homemodel } from "../models/Homemodel";
+import Controls from "../utility/controls/Controls";
+import useForm from "../utility/controls/useForm";
 
-const Homepage = (...props: any) => {
+
+const Details = (...props: any) => {
   //const { societyBuildingId, societyBuildingUnitId }: any = useParams();
   const [title, setTitle] = useState<any>({});
-  const [showCard, setShowCard] = useState(false); // Initially hidden
   //   const { goToHome } = useSharedNavigation();
   // let navigate = useNavigate();
   //const [UnitType, setUnitType] = useState<SelectListModel[]>([]);
@@ -53,44 +52,6 @@ const Homepage = (...props: any) => {
     if (fieldValues === values)
       return Object.values(temp).every((x) => x === "");
   };
-  const aadharCardColumns: GridColDef[] = [
-    {
-      field: "aadharNumber",
-      headerName: "Aadhaar Number",
-      width: 180,
-    },
-    {
-      field: "fullName",
-      headerName: "Full Name",
-      width: 200,
-    },
-    {
-      field: "dob",
-      headerName: "Date of Birth",
-      width: 150,
-    },
-    {
-      field: "gender",
-      headerName: "Gender",
-      width: 120,
-    },
-  ];
-  const aadharCardRows = [
-    {
-      id: 1,
-      aadharNumber: "1234-5678-9012",
-      fullName: "Rajesh Kumar",
-      dob: "1990-05-15",
-      gender: "Male",
-    },
-    {
-      id: 2,
-      aadharNumber: "2345-6789-0123",
-      fullName: "Sita Sharma",
-      dob: "1985-12-01",
-      gender: "Female",
-    },
-  ];
 
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(" ", validate, props.SocietyBuildingUnitId);
@@ -128,55 +89,54 @@ const Homepage = (...props: any) => {
 
   return (
     <>
-      <>
-        {/* /<Stack direction="row" spacing={0} justifyContent="space-between">
+      {/* /<Stack direction="row" spacing={0} justifyContent="space-between">
         <Typography variant="h5" align="center">
           Building Units
         </Typography>
         <Typography variant="body1"><b>Building : </b>{title.Building} </Typography>
       </Stack> */}
 
-        <form autoComplete="off" noValidate>
-          <Card>
-            {/* <CardHeader title="Building Unit" /> */}
-            <CardContent>
-              <React.Fragment>
-                <Grid container spacing={5}>
-                  <Grid size={4}>
-                    <Controls.Select
-                      name="All Yojana List"
-                      label="All Yojana List"
-                      value={Yojanalist.length > 0 ? values.Nature : ""}
-                      onChange={handleInputChange}
-                      options={Yojanalist}
-                      error={errors.Yojanalist}
-                    />
-                  </Grid>
+      <form autoComplete="off" noValidate>
+        <Card>
+          <CardHeader title="Building Unit" />
+          <CardContent>
+            <React.Fragment>
+              <Grid container spacing={5}>
+                <Grid size={4}>
+                  <Controls.Select
+                    name="All Yojana List"
+                    label="All Yojana List"
+                    value={Yojanalist.length > 0 ? values.Nature : ""}
+                    onChange={handleInputChange}
+                    options={Yojanalist}
+                    error={errors.Yojanalist}
+                  />
+                </Grid>
 
-                  <Grid size={4}>
-                    <Controls.Input
-                      required
-                      label="Financial Year"
-                      name="Financial"
-                      //  value={values.Unit}
-                      onChange={handleInputChange}
-                      error={errors.Financial}
-                    />
-                  </Grid>
+                <Grid size={4}>
+                  <Controls.Input
+                    required
+                    label="Unit"
+                    name="Unit"
+                    //  value={values.Unit}
+                    onChange={handleInputChange}
+                    error={errors.Unit}
+                  />
+                </Grid>
 
-                  <Grid size={4}>
-                    <Controls.Input
-                      required
-                      label="Shop No"
-                      name="ShopNo"
-                      type="number"
-                      value={values.ShopNo || 55}
-                      onChange={handleInputChange}
-                      error={errors.ShopNo}
-                    />
-                  </Grid>
+                <Grid size={4}>
+                  <Controls.Input
+                    required
+                    label="Shop No"
+                    name="ShopNo"
+                    type="number"
+                    value={values.ShopNo || 55}
+                    onChange={handleInputChange}
+                    error={errors.ShopNo}
+                  />
+                </Grid>
 
-                  {/* <Grid size={4}>
+                {/* <Grid size={4}>
                   <Controls.Input
                     label="Wing"
                     name="Wing"
@@ -236,12 +196,12 @@ const Homepage = (...props: any) => {
                     error={errors.EndDate}
                   />
                 </Grid> */}
-                </Grid>
-              </React.Fragment>
-            </CardContent>
-          </Card>
+              </Grid>
+            </React.Fragment>
+          </CardContent>
+        </Card>
 
-          {/* <Card>
+        {/* <Card>
           <CardHeader title="Share Certificate Details" />
           <CardContent>
             <React.Fragment>
@@ -332,82 +292,26 @@ const Homepage = (...props: any) => {
           </CardContent>
         </Card> */}
 
-          <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-            <Stack spacing={2} direction="row">
-              {!showCard && (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  onClick={() => setShowCard(true)}
-                >
-                  NEXT PAGE
-                </Button>
-              )}
-            </Stack>
-          </CardActions>
-        </form>
-      </>
-      <>
-      {showCard && (
-  <Card>
-    <CardHeader title="Building Unit" />
-    <CardContent>
-      <Grid container spacing={5}>
-        <Grid size={4}>
-          <Controls.Input
-            label="Name"
-            name="Name"
-            value={values.Name || "Ashutosh"}
-            onChange={handleInputChange}
-            error={errors.Name}
-          />
-        </Grid>
-        <Grid size={4}>
-          <Controls.Input
-            label="Village"
-            name="Village"
-            value={values.Village || "Basti"}
-            onChange={handleInputChange}
-            error={errors.Village}
-          />
-        </Grid>
-        <Grid size={4}>
-          <Controls.Input
-            label="Mobile No."
-            name="Village"
-            value={values.Village || "9168535464"}
-            onChange={handleInputChange}
-            error={errors.Village}
-          />
-        </Grid>
-      </Grid>
-
-      <div style={{ marginTop: 24 ,width: '50%' }}>
-        <DataGrid
-          rows={aadharCardRows}
-          columns={aadharCardColumns}
-          autoHeight
-          columnHeaderHeight={30}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 10 } },
-          }}
-          slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-              quickFilterProps: { debounceMs: 500 },
-            },
-          }}
-          pageSizeOptions={[10, 25, 50, 100]}
-        />
-      </div>
-    </CardContent>
-  </Card>
-)}
-
-      </>
+        <CardActions sx={{ display: "flex", justifyContent: "center" }}>
+          <Stack spacing={2} direction="row">
+            <Button type="submit" variant="contained">
+              NEXT PAGE
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<ArrowBackIcon />}
+              // onClick={() =>
+              //   navigate("/societyBuildingUnits/" + societyBuildingId) }
+              // onClick={() => navigate(-1)}
+            >
+              Back To List
+            </Button>
+          </Stack>
+        </CardActions>
+      </form>
+      
     </>
   );
 };
 
-export default Homepage;
+export default Details;

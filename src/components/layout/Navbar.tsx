@@ -2,6 +2,7 @@ import { alpha, Button, Link, Menu, MenuProps, styled, Toolbar, Typography } fro
 import React from 'react'
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuItem from "@mui/material/MenuItem";
+import Homepage from './Homepage';
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
       elevation={0}
@@ -145,6 +146,7 @@ ACABC FARMER PRODUCER COMPANY LIMITED
 
       </React.Fragment>
     </>
+    <Homepage/>
     </div>
   )
 }
