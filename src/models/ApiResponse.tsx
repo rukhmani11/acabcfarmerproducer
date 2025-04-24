@@ -5,8 +5,8 @@ export interface ApiResponse {
 }
 
 export interface SelectListModel {
-    Value: string;
-    Text: string;
+    value: string;
+    label: string;
 }
 
 export interface MultiSelectListModel {

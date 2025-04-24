@@ -1,5 +1,5 @@
 import Checkbox from "./Checkbox";
-//import ReactDatePicke//r from "./DatePicker";
+import ReactDatePicker from "./DatePicker";
 import Input from "./Input";
 import RadioGroup from "./RadioGroup";
 import Select from "./Select";
@@ -10,7 +10,7 @@ const Controls = {
     RadioGroup,
     Select,
     Checkbox,
-    //ReactDatePicker,
+    ReactDatePicker,
 }
 
 export default Controls;
