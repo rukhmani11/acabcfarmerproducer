@@ -16,7 +16,7 @@ export default function Input(props: any) {
   } = props;
   return (
     <TextField
-      variant="outlined"
+      variant="standard"
       size="small"
       label={label}
       name={name}

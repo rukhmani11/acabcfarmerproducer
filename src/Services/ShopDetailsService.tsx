@@ -9,13 +9,14 @@ const initialFieldValues: ShopDetailsModel = {
   city: "",
 };
 
-const url = "/ShopDetails";
+const url = "api/ShopDetails";
 
 function getAll() {
   return customAxios.get(`${url}/GetAll`, axiosRetryConfig);
 }
-function getShopdetailsByshopNo(getByshopNo: number) {
-  return customAxios.get(`${url}/GetShopdetailsByshopNo/${getByshopNo}`, axiosRetryConfig);
+function getShopdetailsByshopNo(ShopNo: number) {
+  
+  return customAxios.get(`${url}/GetShopdetailsByshopNo/${ShopNo}`, axiosRetryConfig);
 }
 
 export const ShopDetailsService = {

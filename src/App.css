@@ -111,6 +111,10 @@ background-color: #ffeaea;
 .MuiMenuItem-root {
   font-size: 0.9rem !important;
 }
+.edited-row {
+  background-color: #47a7eb !important; /* Light blue background */
+}
+
 
 .MuiTabPanel-root {
   padding: 5px !important;

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import AppRoutes from "./utility/AppRoutes";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 import { customAxios } from "./Services/AxiosHttpCommon";
 import Spinner from "./components/layout/Spinner";
+import { ToastContainer } from "react-toastify";
 
 
 function App() {

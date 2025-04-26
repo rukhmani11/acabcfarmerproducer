@@ -1,12 +1,16 @@
 
 export const config = {
+    baseURL: "https://localhost:7117",
     formDataConfig: {
-        headers: {
-            "content-type": "multipart/form-data",
-        }
-    }
-}
-
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    },
+  };
+  
+  
+  
+  
 export const UserBackToListCallFrom = {
     'mySociety': 'mySociety',
     'society': 'society',

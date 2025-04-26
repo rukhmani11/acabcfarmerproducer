@@ -9,13 +9,21 @@ const initialFieldValues: ProductDetailsModel = {
     quantity: 0
 };
 
-const url = "/ProductDetails";
+const url = "api/ProductDetails";
 
 function getAll() {
   return customAxios.get(`${url}/GetAll`, axiosRetryConfig);
 }
+function put(payload: ProductDetailsModel) {
+  return customAxios.put(`${url}/Edit`, payload, axiosRetryConfig);
+}
 
+function getById(id: number) {
+  return customAxios.get(`${url}/GetById/${id}`, axiosRetryConfig);
+}
 export const ProductDetailsService = {
   initialFieldValues,
   getAll,
+  getById,
+  put,
 };

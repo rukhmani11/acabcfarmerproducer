@@ -1,36 +1,27 @@
 import { YojanaDetailsModel } from "../models/YojanaDetailsModel";
 import { axiosRetryConfig, customAxios } from "./AxiosHttpCommon";
 
-
-
-
 const initialFieldValues: YojanaDetailsModel = {
-    eChallan: "",
-    yojanaName: "",
-    financialYear: new Date(),
-    shopNo: new Date()
-};  
+  eChallan: "",
+  yojanaName: "",
+  financialYear: new Date(),
+  shopNo: new Date(),
+};
 
-const url = "/YojanaDetails";
-
+const url = "api/YojanaDetails";
 
 function getAll() {
-    return customAxios.get(`${url}/GetAll`, axiosRetryConfig);
-  }
-  function getYojanaDetailsListSelectList() {
-    return customAxios.get(
-      `${url}/GetYojanaDetailsListSelectList`,
-      axiosRetryConfig
-    );
-  }
-
+  return customAxios.get(`${url}/GetAll`, axiosRetryConfig);
+}
+function getYojanaDetailsListSelectList() {
+  return customAxios.get(`${url}/GetSelectList`, axiosRetryConfig);
+}
 
 export const YojanaDetailsService = {
-    initialFieldValues,
-    getYojanaDetailsListSelectList,
-    getAll,
- 
-}
+  initialFieldValues,
+  getYojanaDetailsListSelectList,
+  getAll,
+};
 // List<SelectListDTO> GetMBoqtitleSelectListByPackageId(Guid packageId);
 //  public List<SelectListDTO> GetMBoqtitleSelectListByPackageId(Guid packageId)
 //  {
@@ -61,7 +52,6 @@ export const YojanaDetailsService = {
 //     [DataContract]
 //     public class FailureModel
 //     {
-
 
 //         public FailureModel()
 //         {
@@ -139,6 +129,5 @@ export const YojanaDetailsService = {
 //         [DataMember(EmitDefaultValue = false)]
 //         public string FileName { get; set; } = null!;
 //     }
-
 
 // }

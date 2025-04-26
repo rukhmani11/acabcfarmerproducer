@@ -3,7 +3,7 @@ import { globalService } from "./GlobalService";
 
 
 const customAxios: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: "https://localhost:7117",
   headers: {
     "Content-type": "application/json",
     //Don't pass token here. On Login its taking previous user token
