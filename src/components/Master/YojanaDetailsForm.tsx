@@ -119,6 +119,27 @@ import DatePicker from "react-datepicker";
                 COMPANY LIMITED
               </Typography>
             </Box>
+            <CardActions sx={{ display: 'flex', justifyContent: 'right' }}>
+      <Stack spacing={2} direction="row" alignItems="center">
+        <Box
+          sx={{
+            cursor: "pointer",
+            color: "text.primary",
+            "&:hover": {
+              color: "primary.main", // changes color on hover
+              textDecoration: "underline", // optional: underline on hover
+            },
+          }}
+          onClick={() => navigate("/login")}
+        >
+        {/* //  Go to Shop {values.shopNumber} */}
+        Admin Login 
+        </Box>
+
+ 
+      </Stack>
+    </CardActions>
+
             {/* <form
           autoComplete="off"
           noValidate

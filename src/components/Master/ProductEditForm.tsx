@@ -48,12 +48,12 @@ const ProductEditForm = (...props: any) => {
 
   useEffect(() => {
     if (productId) {
-      getBank(productId);
+      getpayment(productId);
       setErrors({});
     } else newUser();
   }, [productId]);
 
-  const getBank = (productId: any) => {
+  const getpayment = (productId: any) => {
     ProductDetailsService.getById(productId).then((response) => {
       if (response) {
 

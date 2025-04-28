@@ -23,12 +23,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit"; // Import the EditIcon
 import { ShopDetailsService } from "../../Services/ShopDetailsService";
 import { useNavigate, useParams } from "react-router-dom";
-import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel, GridToolbar } from "@mui/x-data-grid";
 import { ProductDetailsService } from "../../Services/ProductDetailsService";
 import Navbar from "../layout/Navbar";
 import { ProductDetailsModel } from "../../models/ProductDetailsModel";
 import { globalService } from "../../Services/GlobalService";
 import ProductEditForm from "./ProductEditForm";
+import { PaymentDetailsService } from "../../Services/PaymentDetailService";
+import useForm from "../../utility/controls/useForm";
 
 const ShopDetailsForm = (...props: any) => {
   const [Shopdetail, setShopdetail] = useState(
@@ -36,12 +38,16 @@ const ShopDetailsForm = (...props: any) => {
   );
   const [products, setProducts] = useState<ProductDetailsModel[]>([]);
   const [maxWidth, setMaxWidth] = React.useState<DialogProps["maxWidth"]>("md");
-
+const [selectedRows, setSelectedRows] = useState<any[]>([]);
+//  const [selectedExpenseHdrsIds, setSelectedExpenseHdrsIds] = useState<
+//     string[]
+//   >([]);
   const [editedRowIds, setEditedRowIds] = useState<Set<String>>(new Set());
 
   const theme = useTheme();
   const { shopNo } = useParams();
   const [productall, setProduct] = useState([]);
+  const [paymentdetails, setpaymentdetails] = useState([]);
   const navigate = useNavigate();
   const [productId, setProductId] = useState<any>(null);
   const [open, setOpen] = React.useState(false);
@@ -88,12 +94,78 @@ const ShopDetailsForm = (...props: any) => {
   const refreshproduct = () => {
     getAllProducts();
   };
+  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
+  useForm(
+    ProductDetailsService.initialFieldValues,
+    "",
+    props.setCurrentId
+  );
+
+const getpayment = () => {
+  values.selectedExpenseHdrsIds = Array.from(selectedExpenseHdrsIds?.ids ?? []);
+   console.log("selectedExpenseHdrsIds", values.selectedExpenseHdrsIds);
+  debugger
+    ProductDetailsService.getByIds(values.selectedExpenseHdrsIds).then((response) => {
+      if (response) {
+        let result = response.data;
+        console.log("result", result);
+        if (result && Array.isArray(result.data)) {
+          const totalRate = result.data.reduce((acc : any, item : any) => acc + item.rate, 0);  // Sum of all rates
+          const totalQuantity = result.data.reduce((acc : any, item : any) => acc + item.quantity, 0);  // Sum of all quantities
+          const totalValue = totalRate * totalQuantity;
+        console.log('Total Value:', totalValue);
+        }
+      }
+    })
+  };
+  const getpaymentdetails = (productId: any) => {
+    ProductDetailsService.getById(productId).then((response) => {
+      if (response) {
+
+        let result = response.data;
+        //setValues(setFormValue(result.data));
+        setpaymentdetails(result.list);
+      }
+    })
+  };
+
+  const AddPayment = () => {
+    
+        PaymentDetailsService.Post(PaymentDetailsService.initialFieldValues).then((response: any) => {
+          if (response) {
+            let result = response.data;
+
+            if (result.isSuccess) {
+              globalService.success(result.message);
+              
+              navigate(-1);
+            } else {
+              globalService.error(result.message);
+            }
+          }
+        });
+      
+    
+  };
+  const [selectedExpenseHdrsIds, setSelectedExpenseHdrsIds] = useState<GridRowSelectionModel>();
+
+  const handleConvertedmarkfortallySelectionChange = (newSelection: GridRowSelectionModel) => {
+    debugger
+    setSelectedExpenseHdrsIds(newSelection);
+  };
+
+
   const columns: GridColDef[] = [
     { field: "productName", headerName: "Product Name", flex: 1 },
     { field: "description", headerName: "Description", flex: 1 },
     {
       field: "quantity",
       headerName: "Quantity",
+      flex: 1,
+    },
+    {
+      field: "rate",
+      headerName: "Rate",
       flex: 1,
     },
     {
@@ -117,6 +189,8 @@ const ShopDetailsForm = (...props: any) => {
       },
     },
   ];
+
+  
   // https://mui.com/x/react-data-grid/editing/
   return (
     <>
@@ -164,29 +238,32 @@ const ShopDetailsForm = (...props: any) => {
               Product Details
             </Typography>
             <Box sx={{ width: "100%" }}>
-              <DataGrid
-                getRowId={(row) => row.productId}
-                rows={productall}
-                columns={columns}
-                checkboxSelection
-                disableRowSelectionOnClick
-                keepNonExistentRowsSelected
-              
-                slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                  toolbar: {
-                    showQuickFilter: true,
-                    quickFilterProps: { debounceMs: 500 },
-                  },
-                }}
-                pageSizeOptions={[10, 25, 50, 100]}
-              />
+            <DataGrid
+  getRowId={(row) => row.productId}
+  rows={productall}
+  columns={columns}
+  disableRowSelectionOnClick
+  checkboxSelection
+  onRowSelectionModelChange={(newRowSelectionModel) => {
+    handleConvertedmarkfortallySelectionChange(newRowSelectionModel);
+  }}
+  rowSelectionModel={selectedExpenseHdrsIds}
+  slots={{ toolbar: GridToolbar }}
+  slotProps={{
+    toolbar: {
+      showQuickFilter: true,
+      quickFilterProps: { debounceMs: 500 },
+    },
+  }}
+  pageSizeOptions={[10, 25, 50, 100]}
+/>
+
             </Box>
           </CardContent>
         </Card>
         <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Stack spacing={2} direction="row">
-                      <Button  variant="contained" >Pay</Button>
+                      <Button  variant="contained" onClick={getpayment} >Pay</Button>
                     </Stack>
         
                   </CardActions>
