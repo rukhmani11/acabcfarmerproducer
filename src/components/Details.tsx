@@ -298,7 +298,7 @@ const Details = (...props: any) => {
               NEXT PAGE
             </Button>
             <Button
-              variant="outlined"
+              variant="contained"
               startIcon={<ArrowBackIcon />}
               // onClick={() =>
               //   navigate("/societyBuildingUnits/" + societyBuildingId) }

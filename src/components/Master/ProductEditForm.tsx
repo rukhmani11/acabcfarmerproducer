@@ -126,10 +126,23 @@ const ProductEditForm = (...props: any) => {
                 <Grid size={4}>
                   <TextField
                     required
+                    disabled
                     label="Quantity"
                     variant="standard"
                     name="quantity"
                     value={values.quantity}
+                    onChange={handleInputChange}
+
+                  />
+                </Grid>
+                <Grid size={4}>
+                  <TextField
+                    required
+                  
+                    label="Rate"
+                    variant="standard"
+                    name="rate"
+                    value={values.rate}
                     onChange={handleInputChange}
 
                   />
@@ -142,6 +155,7 @@ const ProductEditForm = (...props: any) => {
           <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={2} direction="row">
               <Button type="submit" variant="contained" >Submit</Button>
+             
             </Stack>
 
           </CardActions>

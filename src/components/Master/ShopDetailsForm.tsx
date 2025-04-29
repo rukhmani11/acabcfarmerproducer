@@ -23,7 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit"; // Import the EditIcon
 import { ShopDetailsService } from "../../Services/ShopDetailsService";
 import { useNavigate, useParams } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowSelectionModel, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridCellEditStopParams, GridColDef, GridRowSelectionModel, GridToolbar } from "@mui/x-data-grid";
 import { ProductDetailsService } from "../../Services/ProductDetailsService";
 import Navbar from "../layout/Navbar";
 import { ProductDetailsModel } from "../../models/ProductDetailsModel";
@@ -46,7 +46,7 @@ const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
   const theme = useTheme();
   const { shopNo } = useParams();
-  const [productall, setProduct] = useState([]);
+  const [productall, setProduct] = useState([ProductDetailsService.initialFieldValues]);
   const [paymentdetails, setpaymentdetails] = useState([]);
   const navigate = useNavigate();
   const [productId, setProductId] = useState<any>(null);
@@ -101,23 +101,46 @@ const [selectedRows, setSelectedRows] = useState<any[]>([]);
     props.setCurrentId
   );
 
+// const getpayment = () => {
+//   values.selectedExpenseHdrsIds = Array.from(selectedExpenseHdrsIds?.ids ?? []);
+//    console.log("selectedExpenseHdrsIds", values.selectedExpenseHdrsIds);
+//   debugger
+//     ProductDetailsService.getByIds(values.selectedExpenseHdrsIds).then((response) => {
+//       if (response) {
+//         let result = response.data;
+//         console.log("result", result);
+//         if (result && Array.isArray(result.data)) {
+//           const totalRate = result.data.reduce((acc : any, item : any) => acc + item.rate, 0);  // Sum of all rates
+//           const totalQuantity = result.data.reduce((acc : any, item : any) => acc + item.quantity, 0);  // Sum of all quantities
+//           const totalValue = totalRate * totalQuantity;
+//         console.log('Total Value:', totalValue);
+//         }
+//       }
+//     })
+//   };
 const getpayment = () => {
-  values.selectedExpenseHdrsIds = Array.from(selectedExpenseHdrsIds?.ids ?? []);
-   console.log("selectedExpenseHdrsIds", values.selectedExpenseHdrsIds);
-  debugger
-    ProductDetailsService.getByIds(values.selectedExpenseHdrsIds).then((response) => {
-      if (response) {
-        let result = response.data;
-        console.log("result", result);
-        if (result && Array.isArray(result.data)) {
-          const totalRate = result.data.reduce((acc : any, item : any) => acc + item.rate, 0);  // Sum of all rates
-          const totalQuantity = result.data.reduce((acc : any, item : any) => acc + item.quantity, 0);  // Sum of all quantities
-          const totalValue = totalRate * totalQuantity;
-        console.log('Total Value:', totalValue);
-        }
-      }
-    })
-  };
+  const selectedIdsArray = Array.from(selectedExpenseHdrsIds?.ids ?? []);
+
+  // Get selected and updated rows
+  const selectedRows = productall.filter((row) =>
+    selectedIdsArray.includes(row.productId)
+  );
+
+  // Sum rates and quantities
+  const totalRate = selectedRows.reduce((acc, item) => acc + Number(item.rate || 0), 0);
+  const totalQuantity = selectedRows.reduce((acc, item) => acc + Number(item.quantity || 0), 0);
+  
+  // Calculate final value
+  const totalValue = totalRate * totalQuantity;
+
+  console.log('Selected Rows:', selectedRows);
+  console.log('Total Rate:', totalRate);
+  console.log('Total Quantity:', totalQuantity);
+  console.log('Total Value:', totalValue);
+};
+
+
+
   const getpaymentdetails = (productId: any) => {
     ProductDetailsService.getById(productId).then((response) => {
       if (response) {
@@ -162,34 +185,42 @@ const getpayment = () => {
       field: "quantity",
       headerName: "Quantity",
       flex: 1,
+      editable: true, // <-- Make editable
+      type: 'number',  // Optional: better input type
     },
     {
       field: "rate",
       headerName: "Rate",
       flex: 1,
+      editable: true, // <-- Make editable
+      type: 'number',  // Optional
     },
-    {
-      field: "Actions",
-      headerName: "Actions",
-     
-      flex: 1,
-      renderCell: (params) => {
-        return (
-          <Stack direction="row" spacing={0}>
-            <IconButton
-              size="small"
-              color="primary"
-              aria-label="add an alarm"
-              onClick={() => handleOpen(params.row.productId)}
-            >
-              <EditIcon fontSize="inherit" />
-            </IconButton>
-          </Stack>
-        );
-      },
-    },
+    // {
+    //   field: "Actions",
+    //   headerName: "Actions",
+    //   flex: 1,
+    //   renderCell: (params) => (
+    //     <Stack direction="row" spacing={0}>
+    //       <IconButton
+    //         size="small"
+    //         color="primary"
+    //         onClick={() => handleOpen(params.row.productId)}
+    //       >
+    //         <EditIcon fontSize="inherit" />
+    //       </IconButton>
+    //     </Stack>
+    //   ),
+    // },
   ];
-
+  const handleCellEdit = (updatedRow: any) => {
+    setProduct((prevProducts : any) =>
+      prevProducts.map((product : any) =>
+        product.productId === updatedRow.productId ? updatedRow : product
+      )
+    );
+  };
+  
+  
   
   // https://mui.com/x/react-data-grid/editing/
   return (
@@ -242,12 +273,17 @@ const getpayment = () => {
   getRowId={(row) => row.productId}
   rows={productall}
   columns={columns}
+  processRowUpdate={(newRow) => {
+    handleCellEdit(newRow);
+    return newRow; // Very Important! Otherwise DataGrid gives error
+  }}
   disableRowSelectionOnClick
   checkboxSelection
   onRowSelectionModelChange={(newRowSelectionModel) => {
     handleConvertedmarkfortallySelectionChange(newRowSelectionModel);
   }}
   rowSelectionModel={selectedExpenseHdrsIds}
+
   slots={{ toolbar: GridToolbar }}
   slotProps={{
     toolbar: {
@@ -257,6 +293,7 @@ const getpayment = () => {
   }}
   pageSizeOptions={[10, 25, 50, 100]}
 />
+
 
             </Box>
           </CardContent>

@@ -9,7 +9,7 @@ export const config = {
   };
   
   
-  
+
   
 export const UserBackToListCallFrom = {
     'mySociety': 'mySociety',
@@ -18,7 +18,7 @@ export const UserBackToListCallFrom = {
 }
 
 export const ROLES = {
-    'Admin': 'Admin',
+    'admin': 'admin',
     'Subscriber': 'Subscriber',
     'Society': 'Society',
     'ReadOnly': 'ReadOnly'

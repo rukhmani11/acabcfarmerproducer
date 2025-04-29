@@ -19,8 +19,10 @@ import {
   DialogContent,
   DialogProps,
 } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { LoginService } from "../../Services/LoginService";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetailsForm = (...props: any) => {
   const [products, setProduct] = useState<[]>([]);
@@ -29,7 +31,7 @@ const ProductDetailsForm = (...props: any) => {
         getAllProducts();
       
     }, []);
-
+    let navigate = useNavigate();
      const getAllProducts = () => {
         LoginService.getAll().then((response) => {
           let result = response.data;
@@ -46,15 +48,21 @@ const ProductDetailsForm = (...props: any) => {
   return (
     <Card sx={{ boxShadow: 3, mx: "auto", width: "80%" }}>
     <CardContent>
-      <Typography
-        variant="h6"
-        gutterBottom
-        fontWeight="bold"
-        color="primary"
-        sx={{ borderBottom: "2px solid #1976d2", paddingBottom: 1 }}
-      >
-        Payment Details
-      </Typography>
+    <Box
+  display="flex"
+  justifyContent="space-between"
+  alignItems="center"
+  sx={{ borderBottom: "2px solid #1976d2", paddingBottom: 1, mb: 2 }}
+>
+  <Typography variant="h6" fontWeight="bold" color="primary">
+    Payment Details
+  </Typography>
+  <Button type="submit" variant="contained" onClick={() =>
+               navigate("/productList" ) }>
+    Edit Product Details
+  </Button>
+</Box>
+       
       <Box sx={{ width: "100%" }}>
         <DataGrid
           getRowId={(row) => row.PaymentId}
@@ -71,7 +79,16 @@ const ProductDetailsForm = (...props: any) => {
         />
       </Box>
     </CardContent>
+    <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Button
+        variant="contained"
+        startIcon={<ArrowBackIcon />}
+        onClick={() => navigate(-1)}
+      >
+        Back To List
+      </Button></CardActions>
   </Card>
+  
   )
 }
 
