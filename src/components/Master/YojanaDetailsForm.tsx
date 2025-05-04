@@ -28,6 +28,7 @@ function YojanaDetailsForm() {
   // const [YojanaDetailsList, setYojanaDetailsList] = useState<SelectListModel[]>(
   //   []
   // );
+  
   const currentYear = new Date().getFullYear();
   const nextYear = currentYear + 1;
 
@@ -44,6 +45,10 @@ function YojanaDetailsForm() {
       return Object.values(temp).every((x) => x === "");
   };
 
+  const financialYearOptions = [
+    { label: "2025 - 2026", value: "2025-2026" },
+  ];
+
   let showNavBar = true;
   const YojanaDetailsList = [
     { value: "C", label: "NFSA(Wheat&Rice)" },
@@ -51,6 +56,7 @@ function YojanaDetailsForm() {
     { value: "S", label: "MDM" },
     { value: "D", label: "NFSA(Sugar)" },
   ];
+  
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(YojanaDetailsService.initialFieldValues, validate, "");
 
@@ -77,7 +83,11 @@ function YojanaDetailsForm() {
         navigate("/"); // optional fallback
       });
   };
-
+   const initialFieldValues = {
+    financialYear: "2025-2026",
+    // add other fields if needed
+  };
+  
   useEffect(() => {
     //  if (YojanaDetailsList.length === 0) getYojanaDetailsList();
   }, []);
@@ -171,17 +181,14 @@ function YojanaDetailsForm() {
                     />
                   </Grid>
                   <Grid size={4}>
-                    <Controls.ReactDatePicker
-                      selected={values.financialYear}
-                      onChange={handleInputChange1}
-                      showYearPicker
-                      dateFormat="yyyy"
-                      label="Financial Year"
-                      minDate={new Date(currentYear, 0, 1)} // Setting the minimum date to the current year
-                      maxDate={new Date(nextYear, 0, 1)} // Setting the maximum date to the next year
-                      yearItemNumber={2}
-                      placeholderText="Select Year"
-                    />
+                  <Controls.Select
+    name="financialYear"
+    label="Financial Year"
+    value={values.financialYear}
+    onChange={handleInputChange}
+    options={financialYearOptions}
+  />
+
                   </Grid>
 
                   <Grid size={4}>

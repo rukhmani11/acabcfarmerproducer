@@ -4,7 +4,8 @@ import { axiosRetryConfig, customAxios } from "./AxiosHttpCommon";
 const initialFieldValues: YojanaDetailsModel = {
   eChallan: "",
   yojanaName: "",
-  financialYear: new Date(),
+  financialYear: "2025-2026",
+
   shopNo: new Date(),
 };
 

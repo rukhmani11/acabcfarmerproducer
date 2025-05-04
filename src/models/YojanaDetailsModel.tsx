@@ -1,6 +1,6 @@
 export interface YojanaDetailsModel {
     eChallan : string;
     yojanaName : string;
-    financialYear  : Date;
+    financialYear  : string;
     shopNo   : Date;
 }
